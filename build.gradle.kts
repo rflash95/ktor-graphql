@@ -11,7 +11,8 @@ val bcrypt_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 tasks {
@@ -22,6 +23,21 @@ tasks {
         kotlinOptions.jvmTarget = "1.8"
     }
 }
+
+application{
+    mainClassName = "io.ktor.server.netty.EngineMain"
+}
+
+tasks.withType<Jar> {
+    manifest{
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
+}
+
 
 
 group = "com.example"
@@ -37,9 +53,13 @@ repositories {
 }
 
 dependencies {
+    implementation("org.koin:koin-ktor:$koin_version")
+    implementation("org.litote.kmongo:kmongo:$kmongo_version")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+
     implementation("com.apurebase:kgraphql:$kgraphql_version")
     implementation("com.apurebase:kgraphql-ktor:$kgraphql_version")
     implementation("io.ktor:ktor-auth:$ktor_version")

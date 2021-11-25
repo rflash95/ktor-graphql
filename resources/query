@@ -1,0 +1,123 @@
+http://0.0.0.0:8080/graphql
+
+//get all desert
+query {
+  desserts {
+    info {
+      count
+      next
+      pages
+      prev
+    }
+    results {
+      id
+      name
+      description
+      imageUrl
+      userId
+    }
+  }
+}
+
+
+//getDessert by Id
+query {
+  dessert(dessertId: "348a3869-11c7-47bf-aa51-b07bc17fda55") {
+    id
+    name
+    description
+    imageUrl
+  }
+}
+
+//CreateDessert
+mutation CreateDessert($dessertInput: DessertInput!) {
+  createDessert(dessertInput: $dessertInput) {
+    id
+    name
+    description
+    imageUrl
+  }
+}
+
+{
+  "dessertInput":
+  {
+  "name":"Chocolate Cake",
+  "description":"Delicious",
+  "imageUrl":""
+  }
+}
+
+//updateDessert
+mutation UpdateDessert($dessertId: String!, $dessertInput: DessertInput!) {
+  updateDessert(dessertId: $dessertId, dessertInput: $dessertInput) {
+    id
+    name
+    description
+    imageUrl
+  }
+}
+
+{
+  "dessertId": "1",
+  "dessertInput": {
+    "name" :"Kueh Keju",
+    "description" : "makanan",
+    "imageUrl":""
+  }
+}
+
+
+//deleteDessert
+mutation DeleteDessert($dessertId:String!){
+  deleteDessert(dessertId:$dessertId)
+}
+
+{
+  "dessertId": "2"
+}
+
+
+//signIn
+mutation SignIn($userInput: UserInput!){
+  signIn(userInput:$userInput){
+    token
+    user{
+      id
+      email
+    }
+  }
+}
+
+{"userInput": {"email": "alice@test.com","password": "wonderland"}}
+
+//signUp
+mutation SignUp($userInput: UserInput!){
+  signUp(userInput:$userInput){
+    token
+    user{
+      id
+      email
+    }
+  }
+}
+
+{"userInput": {"email": "alice1@test.com","password": "wonderland"}}
+
+//getProfile by Authorization
+query GetProfile {
+  getProfile {
+    user {
+      id
+      email
+    }
+    desserts{
+      name
+      description
+    }
+  }
+}
+
+-> http headers
+{"Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlIiwidXNlcklkIjoiZjJjZDI2ODEtNjYyNi00MmUyLTk2MzItNjgyMThhOTk0ODBlIn0.xo3JjdITiIWAigWfA2cYG2KHCXjPrGpF_JKg4SJsLhA"}
