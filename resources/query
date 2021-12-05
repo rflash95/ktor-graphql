@@ -1,4 +1,5 @@
 http://0.0.0.0:8080/graphql
+https://myktor-graphql-server.herokuapp.com/graphql
 
 //get all desert
 query {
@@ -18,6 +19,27 @@ query {
     }
   }
 }
+
+//get all desert (page & size)
+
+query {
+  desserts(page:0,size:10) {
+    info {
+      count
+      next
+      pages
+      prev
+    }
+    results {
+      id
+      name
+      description
+      imageUrl
+      userId
+    }
+  }
+}
+
 
 
 //getDessert by Id
